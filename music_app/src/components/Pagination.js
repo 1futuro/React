@@ -1,15 +1,15 @@
-import React,{ useState } from "react";
+import React from "react";
 import './Pagination.css'
 
-const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage, prevPage, nextPage }) => {
+const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage, prevPage, nextPage, pageCount }) => {
     // const pageNumbers = []; 
     const pageGroup = Math.ceil(currentPage/postsPerPage);
-    
-    const totalPage = Math.ceil(totalPosts / postsPerPage); // 원조 for문
+    const totalPage = Math.ceil(totalPosts/pageCount); // 원조 for문
     console.log('total',totalPage)
 
     const last = pageGroup * postsPerPage; // 화면에 보여질 마지막 페이지 번호
-    const [first,setFirst] = useState(last - (postsPerPage - 1));
+    // const [first,setFirst] = useState(last - (postsPerPage - 1));
+    const first = last - (postsPerPage - 1);
     
     // for (let i = 1; i <= totalPage; i++) {
     //     pageNumbers.push(i); // 배열에 값 추가하여 원본 변경
@@ -19,9 +19,9 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage, prevPage,
         return new Array(postsPerPage).fill().map((_,idx) => first +idx );
     }
 
-    const handlePrevPageGroup = () => {
-        setFirst(first -5);
-    }
+    // const handlePrevPageGroup = () => {
+    //     setFirst(first -5);
+    // }
     
     console.log('currentPage',currentPage); 
 
@@ -29,8 +29,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage, prevPage,
         <div>
         <nav>
             <ul className="pagination">
-                <li onClick={handlePrevPageGroup}>{'<<'}</li>
-                <li onClick={prevPage} className={currentPage === 1 ? "disabled" : "abled"}> {'<'} </li>
+                <li onClick={prevPage} className={currentPage === 1 || currentPage !== first ? "disabled" : "abled"}> {'<'} </li>
                 {getPaginationGroup().map((number,index) => (
                     <li key={number} onClick={()=> paginate(number)} 
                     className={currentPage === number ? "page-item-active" : "page-item"}>
@@ -47,8 +46,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage, prevPage,
                         </span>
                     </li>
                 ))} */}
-                <li onClick={nextPage} className={currentPage === totalPage ? "disabled" : "abled"}> {'>'} </li>    
-                <li>{'>>'}</li>    
+                <li onClick={nextPage} className={currentPage === totalPage || currentPage !== last ? "disabled" : "abled"}> {'>'} </li>    
             </ul>
         </nav>
         </div>

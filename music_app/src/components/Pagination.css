@@ -32,4 +32,6 @@ span{
     pointer-events:none;
     opacity:0.3;
 }
-
+nav{
+    text-align: center;
+}

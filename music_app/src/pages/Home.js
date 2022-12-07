@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import axios from "axios";
 import Albums from "../components/Albums"
 import './Home.css';
@@ -10,9 +10,7 @@ class Home extends React.Component {
         albums: [],
         currentPage : 1,
         postsPerPage : 5, //1~5까지 페이지 노출
-        pageGroup :1,
-        last : 5,
-        first : 1,
+        pageCount :10,
     };
     
     setCurrentPage = page => {
@@ -50,17 +48,21 @@ class Home extends React.Component {
     
 
     render() {
-        const pageGroup =this.setState({ pageGroup : Math.ceil(currentPage/postsPerPage)});
+        // const pageGroup =this.setState({ pageGroup : Math.ceil(currentPage/postsPerPage)});
         const { albums } = this.state;
         const currentPage  = this.state.currentPage;
         const postsPerPage = this.state.postsPerPage;
+        const pageCount = this.state.pageCount;
 
-        const indexOfLast = currentPage * postsPerPage;
-        const indexOfFirst = indexOfLast - postsPerPage;
+        // const indexOfLast = currentPage * postsPerPage;
+        const indexOfLast = currentPage * pageCount;
+        // const indexOfFirst = indexOfLast - postsPerPage;
+        const indexOfFirst = indexOfLast - pageCount;
         
         const currentPosts = (albums) => {
             let currentPosts = 0;
             currentPosts = albums.slice(indexOfFirst,indexOfLast); // 5개 게시글씩 노출
+        
             return currentPosts;
         }
         
@@ -81,6 +83,7 @@ class Home extends React.Component {
                     currentPage={currentPage}
                     prevPage={this.handlePrevPage}
                     nextPage={this.handleNextPage}
+                    pageCount={pageCount}
                 /> 
             </div>
             
